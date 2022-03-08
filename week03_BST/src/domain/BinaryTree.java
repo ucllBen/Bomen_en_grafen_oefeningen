@@ -23,6 +23,27 @@ public class BinaryTree<E>{
 			if (this.rightTree != null) this.rightTree.printInorder();
 	}
 
+	public void cleanUp() {
+		if (this.data != null) {
+			if (this.leftTree != null) {
+				if (this.leftTree.data == null) {
+					this.leftTree = null;
+				} else {
+					this.leftTree.cleanUp();
+				}
+			}
+			if (this.rightTree != null) {
+				if (this.rightTree.data == null) {
+					this.rightTree = null;
+				} else {
+					this.rightTree.cleanUp();
+				}
+			}
+		}
+	}
+	public boolean isLeaf() {
+		return this.leftTree == null && this.rightTree == null;}
+
 
 	//*ONDERSTAANDE METHODES NIET IMPLEMENTEREN! DEZE MOETEN GEIMPLEMENTEERD WORDEN IN DE BinarySearchTree file!*//
 	boolean lookup(E data) {
