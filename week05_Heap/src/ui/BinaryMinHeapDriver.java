@@ -24,7 +24,8 @@ public class BinaryMinHeapDriver {
 			System.out.println(heap.removeSmallest());
 			heap.print();
 		}
-		
+
+		System.out.println();
 		System.out.println(heap.getPath(3));
 		System.out.println(heap.getPath(2));
 		System.out.println(heap.getPath(5));

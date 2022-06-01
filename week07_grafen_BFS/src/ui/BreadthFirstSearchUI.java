@@ -38,4 +38,6 @@ public class BreadthFirstSearchUI {
 		else
 			return "Kortste pad van " + start + " naar "+ destination + " is " + path.size() + " knopen lang en bestaat uit volgende knopen  : " + path;
 	}
+
+
 }

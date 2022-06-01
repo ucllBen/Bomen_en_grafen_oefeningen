@@ -48,8 +48,15 @@ public class Graph {
         queue.add(start);
         ancestors[start - 1] = 0;
 
-        // oefening 1.4
-
+        while (!queue.isEmpty()) {
+            int volgendeInDeQueue = queue.remove();
+            for (int i = 1; i < verbindingsMatrix.length; i++) {
+                if (verbindingsMatrix[volgendeInDeQueue-1][i] == 1 && ancestors[i] == infty) {
+                    queue.add(i + 1);
+                    ancestors[i] = volgendeInDeQueue;
+                }
+            }
+        }
         return ancestors;
     }
 
@@ -60,8 +67,13 @@ public class Graph {
         int[] ancestors = this.findAncestors(start, destination);
         List<Integer> path = new LinkedList<>();
 
-        // oefening 1.5
-
+        int ouder = ancestors[destination-1];
+        while (ouder !=0 && ouder !=infty){
+            path.add(0,destination);
+            destination = ouder;
+            ouder = ancestors[destination-1];
+        }
+        if (ouder == 0){path.add(0,destination);}
         return path;
 
     }
@@ -82,5 +94,7 @@ public class Graph {
         return res;
     }
 
-
+    public int[][] getVerbindingsMatrix() {
+        return verbindingsMatrix;
+    }
 }

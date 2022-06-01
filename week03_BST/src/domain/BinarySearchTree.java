@@ -118,6 +118,22 @@ public class BinarySearchTree<E extends Comparable<E>> extends BinaryTree<E> {
 	return pad;
 	}
 
+	public void cleanup(){
+		if (this.data != null) {
+			if (this.leftTree != null) {
+				if (this.leftTree.data == null) {
+					this.leftTree = null; } else {
+					this.leftTree.cleanUp(); }
+			}
+			if (this.rightTree != null) {
+				if (this.rightTree.data == null) { this.rightTree = null;
+				} else { this.rightTree.cleanUp();
+				} }
+		}
+
+	}
+
+
 
 }
 

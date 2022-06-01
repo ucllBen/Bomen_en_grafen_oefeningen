@@ -45,12 +45,46 @@ public class BinaryMinHeap<E extends Comparable<E>> {
         }
     }
 
+    private void bubbleDown() {
+        int index = 0;
+
+        boolean wisselOK = true;
+        while (heeftLinkerKind(index)&& wisselOK){
+            //welk kind is het kleinste
+            int indexKleinsteKind = indexLinkerKind(index);
+            if (heeftRechterKind(index)
+                    &&values.get(indexKleinsteKind).compareTo(values.get(indexRechterKind(index)))>0){
+                indexKleinsteKind = indexRechterKind(index);
+            }
+            if (values.get(index).compareTo(values.get(indexKleinsteKind))>0){
+                this.wisselOm(index, indexKleinsteKind);
+            }    else {
+                wisselOK = false;
+            }
+            index=indexKleinsteKind;
+
+        }
+
+    }
+
+    private int indexLinkerKind(int i){
+        return 2 * i +1;
+    }
+
+    private int indexRechterKind(int i){
+        return 2 * i +2;
+    }
+
+    private boolean heeftLinkerKind(int i){
+        return indexLinkerKind(i)<values.size();
+    }
+    private boolean heeftRechterKind(int i){
+        return indexRechterKind(i)<values.size();
+    }
+
     private E ouder (int i){
         return values.get(ouderIndex(i));
     }
-
-
-
 
     private boolean heeftOuder(int i) {
         return i>=1;
@@ -76,12 +110,20 @@ public class BinaryMinHeap<E extends Comparable<E>> {
         return res;
     }
 
-    private void bubbleDown() {
-        // TODO zie oefening 5
-    }
+
 
     public ArrayList<E> getPath(E value) {
-        // TODO zie oefening 6;
-        return null;
+        int index = this.values.indexOf(value);
+        if (index ==-1){return null;}
+        else{
+            ArrayList<E> pad = new ArrayList<>();
+            pad.add(value);
+            while (index > 0){
+                index = (index-1)/2;
+                pad.add(0,this.values.get(index));
+            }
+            return pad;
+        }
+
     }
 }
