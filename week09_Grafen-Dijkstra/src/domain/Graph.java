@@ -25,23 +25,75 @@ public class Graph {
 
 		// oefening 9.3
 
+		for (int i =0;i<getAantalKnopen();i++){
+			for (int j=0; j<getAantalKnopen();j++){
+				res[i][j]=gewichtenMatrix[i][j] != inf?gewichtenMatrix[i][j]:0;
+				res[getAantalKnopen()][i]=inf;
+			}
+		}
+
 		return res;
 	}
 
 	public int[][] Dijkstra(int vanKnoop) {
 		int[][] res = initMatrixDijkstra(vanKnoop);
-		
+
 		System.out.println("Initiele matrix: \n");
 		printIntMatrix(res);
-		
-		// oefening 9.4
+
+		// oefening 3.4
+		// herhaal voor alle knopen
+		for (int i = 0; i < getAantalKnopen() - 1; i++) {
+			// zoek nieuwe minimale afstand
+			int min = inf;
+			int[] knopenpaar = {inf, inf}; // index die het nieuwe minimum is
+			for (int j = 0; j < getAantalKnopen(); j++) {
+				// herhaal voor alle knopen die al bezocht zijn
+				if (res[getAantalKnopen()][j] != inf) {
+					for (int k = 0; k < getAantalKnopen(); k++) {
+						// als knoop k+1 nog niet gevonden is,
+						// als er een verbinding is tussen knoop j+1 en knoop k+1
+						// en als de verbinding tussen deze knopen korter is
+						// dan het minimum tot nog toe
+						if (res[getAantalKnopen()][k] == inf && res[j][k] != 0 &&
+								res[getAantalKnopen()][j] + res[j][k] < min) {
+							// onthoud (index van) dit knopenpaar en hun minimum
+							knopenpaar[0] = j;
+							knopenpaar[1] = k;
+							min = res[getAantalKnopen()][j] + res[j][k];
+						}
+					}
+				}
+			}
+			// tussenresultaat wegschrijven indien er verbetering is
+			if (knopenpaar[0] != inf && knopenpaar[1] != inf) {
+				// nieuwe minimum
+				res[getAantalKnopen()][knopenpaar[1]] = min;
+				for (int j = 0; j < getAantalKnopen() - 1; j++) {
+					// kolom op nul zetten, maar niet op de plaats die het minimum aanlevert
+					if (j != knopenpaar[0])
+						res[j][knopenpaar[1]] = 0;
+				}
+			}
+		}
 
 		return res;
 	}
 
 	private ArrayList<Integer> vindPad(int vanKnoop, int naarKnoop, int[][] res) {
 		ArrayList<Integer> pad = new ArrayList<>();
-		// oefening 9.5
+		// oefening 3.5
+		// naarKnoop, vanKnoop en k zijn namen van knopen
+		// hun index in de matrix is altijd eentje minder want de rijen/kolommen tellen vanaf 0
+		pad.add(naarKnoop);
+
+		while (naarKnoop != vanKnoop) {
+			int k = 1;
+			while (k - 1 < getAantalKnopen() && res[k - 1][naarKnoop - 1] == 0)
+				k++;
+			pad.add(0, k);
+			naarKnoop = k;
+		}
 		return pad;
 	}
 
